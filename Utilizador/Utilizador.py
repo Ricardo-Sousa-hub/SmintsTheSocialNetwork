@@ -63,36 +63,32 @@ def verpublicacoes():
     for i in range(len(publicacoes)):
         j = publicacoes[i]
         j = j.split(",")
-        id = j[1]
         print("Autor:", j[0])
         print(j[3], "\nIndex de publicacao: ", i)
         print("=" * 30)
         for y in range(len(comentarios)):
             aux = comentarios[y]
             aux = aux.split(",")
-            if (aux[1] == id) and (aux[2] == "c"):
+            if (aux[1] == j[1]) and (aux[2] == "c"):
                 print("Comentario de:", aux[0])
                 print("     ", aux[3], "\nIndex de comentario: ", y)
                 print("-" * 30)
 
 
 def comentarPublicacoes(utilizador):
-    comentarios = pickle.load(open("comentarios.dat", "rb"))
     verpublicacoes()
     selecao = int(input("Digite o index da publicacao que quer comentar: "))
-
-    x = comentarios[selecao]
-
-    x = x.split(",")
-
     comentario = input("Digite o comentario, se desejar sair digite sair? ")
 
     if comentario == "sair":
         return 0
     else:
+        publicacoes = pickle.load(open("publicacoes.dat", "rb"))
+        comentarios = pickle.load(open("comentarios.dat", "rb"))
+        x = publicacoes[selecao]
+        x = x.split(",")
         comentarios.append(utilizador + "," + str(x[1]) + "," + "c" + "," + comentario)
-
-    pickle.dump(comentarios, open("comentarios.dat", "wb"))
+        pickle.dump(comentarios, open("comentarios.dat", "wb"))
 
 
 def alterarPublicacoes(utilizador):
@@ -109,6 +105,7 @@ def alterarPublicacoes(utilizador):
         else:
             publicacoes.pop(indexpub)
             publicacoes.insert(indexpub, (utilizador + "," + str(aux[1]) + "," + "pub" + "," + alterarpub))
+            pickle.dump(publicacoes, open("publicacoes.dat", "wb"))
     else:
         print("Nao pode modificar esta publicacao pois nao lhe pertence.")
 
@@ -119,14 +116,13 @@ def removerPublicacoes(utilizador):
     for i in range(len(publicacoes)):
         j = publicacoes[i]
         j = j.split(",")
-        id = j[1]
         if j[0] == utilizador:
             print(j[3], "\nIndex de publicacao: ", i)
             print("=" * 30)
             for y in range(len(comentarios)):
                 aux = comentarios[y]
                 aux = aux.split(",")
-                if (aux[0] == utilizador) and (aux[1] == id) and (aux[2] == "c"):
+                if (aux[0] == utilizador) and (aux[1] == j[1]) and (aux[2] == "c"):
                     print("     ", aux[3], "\n      Index de comentario:", y)
                     print("-" * 30)
 
@@ -142,7 +138,6 @@ def removerPublicacoes(utilizador):
             aux = aux.split(",")
 
             user = utilizador
-            id = aux[1]
 
             publicacoes.pop(remove)
             listapos = []
@@ -150,7 +145,7 @@ def removerPublicacoes(utilizador):
             for i in range(len(comentarios)):
                 j = comentarios[i]
                 j = j.split(",")
-                if j[0] == user and j[1] == id:
+                if j[0] == user and j[1] == aux[1]:
                     listapos.append(comentarios[i])
 
             for i in listapos:
@@ -180,24 +175,22 @@ def alterarComentarios(utilizador):
             return 0
         else:
             comentarios.pop(alterar)
-
             comentarios.insert(alterar, (utilizador + "," + id[1] + "," + "c" + "," + newcoment))
 
             for i in range(len(publicacoes)):
                 j = publicacoes[i]
                 j = j.split(",")
-                id = j[1]
                 print(j[3], "\nIndex de publicacao: ", i)
                 print("=" * 30)
                 for y in range(len(comentarios)):
                     aux = comentarios[y]
                     aux = aux.split(",")
-                    if (aux[1] == id) and (aux[2] == "c"):
+                    if (aux[1] == j[1]) and (aux[2] == "c"):
                         print("Comentario de:", aux[0])
                         print("     ", aux[3], "\n      Index de comentario:", y)
                         print("-" * 30)
     else:
-        print("O comentario não pode ser removido, pois não lhe pertence")
+        print("O comentario não pode ser alterado pois não lhe pertence")
 
     pickle.dump(publicacoes, open("publicacoes.dat", "wb"))
     pickle.dump(comentarios, open("comentarios.dat", "wb"))
@@ -228,7 +221,6 @@ def verPerfil(utilizador):
     for i in range(len(publicacoes)):
         j = publicacoes[i]
         j = j.split(",")
-        id = j[1]
         print("Minhas publicacaoes: ")
         if j[0] == utilizador:
             print(j[3], "\nIndex de publicacao: ", i)
@@ -236,7 +228,7 @@ def verPerfil(utilizador):
             for y in range(len(comentarios)):
                 aux = comentarios[y]
                 aux = aux.split(",")
-                if (aux[1] == id) and (aux[2] == "c"):
+                if (aux[1] == j[1]) and (aux[2] == "c"):
                     print("Comentario de:", aux[0])
                     print("     ", aux[3], "\nIndex de comentario: ", y)
                     print("-" * 30)

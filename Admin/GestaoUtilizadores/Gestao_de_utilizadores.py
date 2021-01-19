@@ -58,29 +58,30 @@ def picklefechar(users, email, telefone, idade, palavrapasse):
     pickle.dump(idade, open("Data.dat", "wb"))
     pickle.dump(palavrapasse, open("Password.dat", "wb"))
 
+
 def pickleabrir():
     users = pickle.load(open("users.dat", "rb"))
     email = pickle.load(open("correio.dat", "rb"))
     telefone = pickle.load(open("telefone.dat", "rb"))
     idade = pickle.load(open("Data.dat", "rb"))
     palavrapasse = pickle.load(open("Password.dat", "rb"))
-    return (users, email, telefone, idade, palavrapasse)
+    return users, email, telefone, idade, palavrapasse
 
 
 def valnum(update):
+    aux = int(update) // 1000000
+    aux1 = int(update) // 10000000
+    aux2 = int(update) // 1000000
+    indicativos = [91, 921, 9240, 9241, 9243, 9244, 925, 926, 927, 929, 93, 96]
+
+    while (aux not in indicativos) and (aux1 not in indicativos) and (aux2 not in indicativos):
+        print("Por favor digite um numero valido")
+        update = input("Numero de utiliziador: ")
         aux = int(update) // 1000000
         aux1 = int(update) // 10000000
         aux2 = int(update) // 1000000
-        indicativos = [91, 921, 9240, 9241, 9243, 9244, 925, 926, 927, 929, 93, 96]
 
-        while (aux not in indicativos) and (aux1 not in indicativos) and (aux2 not in indicativos):
-            print("Por favor digite um numero valido")
-            update = input("Numero de utiliziador: ")
-            aux = int(update) // 1000000
-            aux1 = int(update) // 10000000
-            aux2 = int(update) // 1000000
-
-        return update
+    return update
 
 
 def validacao_para_numero(contacto):
@@ -99,17 +100,14 @@ def verificaremail(mail):
 
 
 def modificar(opcao, lista, op):
-    if op == 1:
-        text = "nome"
-    elif op == 2:
-        text = "email"
-    elif op == 3:
-        text = "contacto"
+    if op == 3:
         opcao = str(opcao)
+
     if opcao in lista:
         num = lista.index(opcao)
 
         if op == 1:
+            text = "nome"
             update = input("Digite o novo {}: ".format(text))
 
             while any(char.isdigit() for char in update) and any(char.isalpha() for char in update) or any(
@@ -122,6 +120,7 @@ def modificar(opcao, lista, op):
                 update = input("Digite o novo {}: ".format(text))
 
         elif op == 2:
+            text = "email"
             update = input("Digite o novo {}: ".format(text))
 
             update = verificaremail(update)
@@ -130,9 +129,10 @@ def modificar(opcao, lista, op):
                 print("Digite um email diferente do que pretende modificar")
                 update = input("Digite o novo {}: ".format(text))
         elif op == 3:
+            text = "contacto"
             update = input("Digite o novo {}: ".format(text))
 
-            while validacao_para_numero(update) == True:
+            while validacao_para_numero(update):
                 print("Digite um numero valido.")
                 update = input("Numero de utilizador? ")
 
@@ -159,7 +159,7 @@ def inserirUtilizadores():
         nome = str(input("Nome de utilizador? "))
 
         while any(char.isdigit() for char in nome) and any(char.isalpha() for char in nome) or any(
-                char.isdigit() for char in nome):
+                char.isdigit() for char in nome) or "." in nome or "," in nome or "-" in nome or "?" in nome:
             print("Erro, por favor digite um nome valido.")
             nome = input("Nome de utilizador? ")
 
@@ -178,7 +178,7 @@ def inserirUtilizadores():
             numero = input("Numero de utilizador: ")
             x = list(numero)
 
-        while validacao_para_numero(numero) == True:
+        while validacao_para_numero(numero):
             print("Numero de utilizador inválido.")
             numero = input("Numero de utilizador: ")
 
@@ -207,7 +207,7 @@ def inserirUtilizadores():
 
         picklefechar(users, email, telefone, idades, palavrapasse)
 
-    except (OSError, IOError) as e:
+    except (OSError, IOError):
         users = []
         email = []
         telefone = []
@@ -232,7 +232,7 @@ def inserirUtilizadores():
         email.append(mail)
         numero = input("Numero de utilizador: ")
 
-        while validacao_para_numero(numero) == True:
+        while validacao_para_numero(numero):
             print("Numero de utilizador inválido.")
             numero = input("Numero de utilizador: ")
 
@@ -271,7 +271,8 @@ def alterarUtilizador():
         if len(users) > 0:
 
             op = int(input(
-                "Pretende modificar: \n 1-Nome de utilizador \n 2-Email de utilizador \n 3-Numero de utilizadores \n Opcao: "))
+                "Pretende modificar: \n 1-Nome de utilizador \n 2-Email de utilizador \n 3-Numero de utilizadores \n "
+                "Opcao: "))
             if op == 1:
                 nome = input("Digite o nome de utilizador que pretende alterar: ")
 
@@ -294,7 +295,7 @@ def alterarUtilizador():
             elif op == 3:
                 numero = input("Digite o numero de utilizador que pretende alterar: ")
 
-                while validacao_para_numero(numero) == True:
+                while validacao_para_numero(numero):
                     print("Numero de utilizador inválido.")
                     numero = input("Numero de utilizador: ")
 
@@ -311,7 +312,7 @@ def alterarUtilizador():
         else:
             print("Nao existem utilizadores")
 
-    except (OSError, IOError) as e:
+    except (OSError, IOError):
         print("Não existem dados")
 
 
@@ -345,7 +346,7 @@ def eliminarUtilizador():
                     print("Utilizador não encontrado")
         else:
             print("Nao existem utilizadores")
-    except(OSError, IOError) as e:
+    except(OSError, IOError):
         print("Não existem dados")
 
 
@@ -374,7 +375,7 @@ def listarUtilizadores():
         else:
             print("Utilziadores nao encontrados")
 
-    except(OSError, IOError) as e:
+    except(OSError, IOError):
         print("Não existem dados")
 
 
@@ -415,5 +416,5 @@ def pesquisarporUtilizador():
                         print(pesquisa, "nao encontrado")
         else:
             print("Nao existe ennhum utilizador")
-    except(OSError, IOError) as e:
+    except(OSError, IOError):
         print("Não existem dados")

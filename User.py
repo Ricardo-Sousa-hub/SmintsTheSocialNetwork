@@ -2,10 +2,13 @@ from Utilizador import Utilizador
 from Menus import Menu
 from Admin.GestaoUtilizadores import Gestao_de_utilizadores
 
+
 def MenuPrincipalUser(utilizador):
     while True:
         op = Menu.Menu("Gestão de rede social",
-                       ["Criar post", "Ver publicacoes", "Comentar publicacoes", "Alterar publicacoes", "Remover publicacoes", "Alterar comentarios", "Remover comentarios", "Pesquisar por utilziador", "Ver perfil", "Definicoes de conta"], 9)
+                       ["Criar post", "Ver publicacoes", "Comentar publicacoes", "Alterar publicacoes",
+                        "Remover publicacoes", "Alterar comentarios", "Remover comentarios", "Pesquisar por utilziador",
+                        "Ver perfil", "Definicoes de conta"], 9)
         if op == 1:
             Utilizador.criarpost(utilizador)
             usrop = input("Deseja repetir o processo? s/n: ")
