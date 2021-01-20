@@ -50,5 +50,30 @@ while True:
         elif int(opcao) == 0:
             break
 
-    except (OSError, IOError) as e:
+    except (OSError, IOError):
         print("Não existem utilizadores, por favor crie um novo")
+        opcao = input("Login - 1\n"
+                      "Criar nova conta - 2\n"
+                      "Terminar - 0\n"
+                      "Opcao: ")
+
+        while opcao.isdigit() == False or int(opcao) < 0 or int(opcao) > 2:
+            print("Digite um numero valido")
+            opcao = input("Login - 1\n"
+                          "Criar nova conta - 2\n"
+                          "Terminar - 0\n"
+                          "Opcao: ")
+
+        if int(opcao) == 1:
+            utilizador = str(input("Utilizador: "))
+            password = str(input("Password: "))
+
+            if utilizador == "Admin" and password == "admin":
+                MenuPrincipalAdmin()
+            else:
+                print("Por favor crie um novo utilziador.")
+        elif int(opcao) == 2:
+            Gestao_de_utilizadores.inserirUtilizadores()
+
+        elif int(opcao) == 0:
+            break

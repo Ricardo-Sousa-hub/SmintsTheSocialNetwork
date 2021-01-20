@@ -16,13 +16,13 @@ def eliminarpublicacao():
     comentarios = pickle.load(open("comentarios.dat", "rb"))
     for i in range(len(publicacoes)):
         j = publicacoes[i]
-        j = j.split(",")
+        j = j.split(".")
         id = j[1]
         print(j[3], "\nIndex de publicacao: ", i)
         print("=" * 30)
         for y in range(len(comentarios)):
             aux = comentarios[y]
-            aux = aux.split(",")
+            aux = aux.split(".")
             if (aux[1] == id) and (aux[2] == "c"):
                 print("     ", aux[3], "\n      Index de comentario:", y)
                 print("-" * 30)
@@ -34,7 +34,7 @@ def eliminarpublicacao():
         remove = int(remove)
         print(publicacoes[remove])
         aux = publicacoes[remove]
-        aux = aux.split(",")
+        aux = aux.split(".")
 
         user = aux[0]
         id = aux[1]
@@ -44,7 +44,7 @@ def eliminarpublicacao():
 
         for i in range(len(comentarios)):
             j = comentarios[i]
-            j = j.split(",")
+            j = j.split(".")
             if j[0] == user and j[1] == id:
                 listapos.append(comentarios[i])
             for y in listapos:

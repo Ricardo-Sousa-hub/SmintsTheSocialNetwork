@@ -49,6 +49,7 @@ def writehtml(users, email, telefone, idade):
         f.write("""    </table>    
     </body>
 </html>""")
+        f.close()
 
 
 def picklefechar(users, email, telefone, idade, palavrapasse):
@@ -227,7 +228,8 @@ def inserirUtilizadores():
             print("Email já existe")
             mail = str(input("Email de utilizador? "))
 
-        mail = verificaremail(mail)
+        if len(email) > 0:
+            mail = verificaremail(mail)
 
         email.append(mail)
         numero = input("Numero de utilizador: ")
