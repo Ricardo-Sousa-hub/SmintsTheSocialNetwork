@@ -4,77 +4,88 @@ import webbrowser
 
 
 def writehtmltweet(publicacoes, comentarios):
-    with open("tweet.html", "w") as f:
-        f.write("""<!DOCTYPE html>
-<html> 
-    <head>
-        <style>
-
-            hr{
-                background-color: black;
-            }
-
-            .tweet{
-                border-radius: 10px;
-                margin-left: 15%;
-                margin-right: 15%;
-                padding-left: 15px;
-                padding-right: 15px;
-                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                margin-top: 1%;
-                margin-bottom: 1%;
-            }
-
-            .nome{
-                font-size: 15px;
-                font-weight: bold;
-                margin-bottom: -13px;
-            }
-
-            .nome2{
-                font-size: 15px;
-                font-weight: bold;
-                margin-bottom: -13px;
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            }
-
-            .alinhamento{
-                margin-left: 150px;
-                margin-right: 150px;
-            }
-
-            .comentario{
-                margin-left: 15%;
-                margin-right: 15%;
-                padding-left: 15px;
-                padding-right: 15px;
-                border: 1px solid black;
-            }
-
-        </style>
-    </head>
-    <body>
-        <div class="alinhamento">\n""")
-        for i in range(len(publicacoes)):
-            j = publicacoes[i]
-            j = j.split(".")
-            f.write(f"""<div class="tweet">
-                <p class="nome">{j[0]}</p>
-                <p>{j[3]}</p>
-            </div>""")
-            f.write('''<div class="comentario">''')
-            for y in range(len(comentarios)):
-                aux = comentarios[y]
-                aux = aux.split(".")
-                if (aux[1] == j[1]) and (aux[2] == "c"):
-                    f.write(f'''<p class="nome2">{aux[0]}</p>
-                <p>{aux[3]}</p>
-                <hr>''')
-            f.write("</div>")
-        f.write("""    </div>    
-    </body>
-</html>""")
+    if len(publicacoes) > 0:
+        with open("tweet.html", "w") as f:
+            f.write("""<!DOCTYPE html>
+    <html> 
+        <head>
+            <style>
+    
+                hr{
+                    background-color: black;
+                }
+    
+                .tweet{
+                    border-radius: 10px;
+                    margin-left: 15%;
+                    margin-right: 15%;
+                    padding-left: 15px;
+                    padding-right: 15px;
+                    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    margin-top: 1%;
+                    margin-bottom: 1%;
+                }
+    
+                .nome{
+                    font-size: 15px;
+                    font-weight: bold;
+                    margin-bottom: -13px;
+                }
+    
+                .nome2{
+                    font-size: 15px;
+                    font-weight: bold;
+                    margin-bottom: -13px;
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                }
+    
+                .alinhamento{
+                    margin-left: 150px;
+                    margin-right: 150px;
+                }
+    
+                .comentario{
+                    margin-left: 15%;
+                    margin-right: 15%;
+                    padding-left: 15px;
+                    padding-right: 15px;
+                    border: 1px solid black;
+                }
+    
+            </style>
+        </head>
+        <body>
+            <div class="alinhamento">\n""")
+            for i in range(len(publicacoes)):
+                j = publicacoes[i]
+                j = j.split(".")
+                f.write(f"""<div class="tweet">
+                    <p class="nome">{j[0]}</p>
+                    <p>{j[3]}</p>
+                </div>""")
+                f.write('''<div class="comentario">''')
+                for y in range(len(comentarios)):
+                    aux = comentarios[y]
+                    aux = aux.split(".")
+                    if (aux[1] == j[1]) and (aux[2] == "c"):
+                        f.write(f'''<p class="nome2">{aux[0]}</p>
+                    <p>{aux[3]}</p>
+                    <hr>''')
+                f.write("</div>")
+            f.write("""    </div>    
+        </body>
+    </html>""")
+            f.close()
+    else:
+        with open("tweet.html", "w") as f:
+            f.write("""<!DOCTYPE html>
+                <html> 
+                    <body>
+                        <h1>Isto parece vazio</h1>
+                        <h1>Tenta fazer uma publicacao</h1>
+                    </body>
+                </html>""")
         f.close()
 
 
@@ -321,4 +332,5 @@ def verPerfil(utilizador):
 
 
 def definicoesdeconta(utilizador):
-    print("Definicoes de conta TODO")
+    print("Definicoes de conta de", utilizador)
+    print("TODO...")
