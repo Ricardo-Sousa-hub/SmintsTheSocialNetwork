@@ -95,6 +95,7 @@ def criarpost(utilizador):
         publicacoes = pickle.load(open("publicacoes.dat", "rb"))
         comentarios = pickle.load(open("comentarios.dat", "rb"))
         ids = pickle.load(open("ids.dat", "rb"))
+
         while True:
             publicacao = input("Publicacao? ")
             if publicacao == "sair":
@@ -334,3 +335,12 @@ def verPerfil(utilizador):
 def definicoesdeconta(utilizador):
     print("Definicoes de conta de", utilizador)
     print("TODO...")
+
+
+def gostardepublicacao(utilizador):
+    print("Gostos de publicacao...TODO...")
+
+def gostardecomentarios(utilizador):
+    print("Gostos de comentarios...TODO...")
+
+
