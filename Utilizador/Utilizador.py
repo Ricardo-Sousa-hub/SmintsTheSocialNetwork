@@ -1,6 +1,7 @@
 import pickle
 import random
 import webbrowser
+import datetime
 
 
 def writehtmltweet(publicacoes, comentarios):
@@ -61,7 +62,7 @@ def writehtmltweet(publicacoes, comentarios):
                 j = publicacoes[i]
                 j = j.split(".")
                 f.write(f"""<div class="tweet">
-                    <p class="nome">{j[0]}</p>
+                    <p class="nome">{j[0]} Hora de publicacao: {j[4]}</p>
                     <p>{j[3]}</p>
                 </div>""")
                 f.write('''<div class="comentario">''')
@@ -69,7 +70,7 @@ def writehtmltweet(publicacoes, comentarios):
                     aux = comentarios[y]
                     aux = aux.split(".")
                     if (aux[1] == j[1]) and (aux[2] == "c"):
-                        f.write(f'''<p class="nome2">{aux[0]}</p>
+                        f.write(f'''<p class="nome2">{aux[0]} Hora de comentario: {aux[4]}</p>
                     <p>{aux[3]}</p>
                     <hr>''')
                 f.write("</div>")
@@ -106,13 +107,13 @@ def criarpost(utilizador):
                     x = random.randint(0, 1000)
 
                 ids.append(x)
-                publicacoes.append(utilizador + "." + str(x) + "." + "pub" + "." + publicacao)
+                publicacoes.append(utilizador + "." + str(x) + "." + "pub" + "." + publicacao + "." + str(datetime.datetime.now()))
                 while True:
                     comentario = input("Comentario? ")
                     if comentario == "sair":
                         break
                     else:
-                        comentarios.append(utilizador + "." + str(x) + "." + "c" + "." + comentario)
+                        comentarios.append(utilizador + "." + str(x) + "." + "c" + "." + comentario + "." + str(datetime.datetime.now()))
 
                 pickle.dump(users, open("users.dat", "wb"))
                 pickle.dump(publicacoes, open("publicacoes.dat", "wb"))
@@ -131,13 +132,13 @@ def criarpost(utilizador):
                 while x in ids:
                     x = random.randint(0, 1000)
                 ids.append(x)
-                listapublicacoes.append(utilizador + "." + str(x) + "." + "pub" + "." + publicacao)
+                listapublicacoes.append(utilizador + "." + str(x) + "." + "pub" + "." + publicacao + "." + str(datetime.datetime.now()))
                 while True:
                     comentario = input("Comentario? ")
                     if comentario == "sair":
                         break
                     else:
-                        listacoments.append(utilizador + "." + str(x) + "." + "c" + "." + comentario)
+                        listacoments.append(utilizador + "." + str(x) + "." + "c" + "." + comentario + "." + str(datetime.datetime.now()))
 
         pickle.dump(listapublicacoes, open("publicacoes.dat", "wb"))
         pickle.dump(listacoments, open("comentarios.dat", "wb"))
@@ -152,14 +153,14 @@ def verpublicacoes():
         for i in range(len(publicacoes)):
             j = publicacoes[i]
             j = j.split(".")
-            print("Autor:", j[0])
+            print("Autor:", j[0], " Hora de publicacao: ", j[4])
             print(j[3], "\nIndex de publicacao: ", i)
             print("=" * 30)
             for y in range(len(comentarios)):
                 aux = comentarios[y]
                 aux = aux.split(".")
                 if (aux[1] == j[1]) and (aux[2] == "c"):
-                    print("Comentario de:", aux[0])
+                    print("Comentario de:", aux[0], " Hora: ", aux[4])
                     print("     ", aux[3], "\nIndex de comentario: ", y)
                     print("-" * 30)
 
@@ -181,7 +182,7 @@ def comentarPublicacoes(utilizador):
         comentarios = pickle.load(open("comentarios.dat", "rb"))
         x = publicacoes[selecao]
         x = x.split(".")
-        comentarios.append(utilizador + "." + str(x[1]) + "." + "c" + "." + comentario)
+        comentarios.append(utilizador + "." + str(x[1]) + "." + "c" + "." + comentario + "." + str(datetime.datetime.now()))
         pickle.dump(comentarios, open("comentarios.dat", "wb"))
 
 
@@ -198,7 +199,7 @@ def alterarPublicacoes(utilizador):
             return 0
         else:
             publicacoes.pop(indexpub)
-            publicacoes.insert(indexpub, (utilizador + "." + str(aux[1]) + "." + "pub" + "." + alterarpub))
+            publicacoes.insert(indexpub, (utilizador + "." + str(aux[1]) + "." + "pub" + "." + alterarpub + "." + str(datetime.datetime.now())))
             pickle.dump(publicacoes, open("publicacoes.dat", "wb"))
     else:
         print("Nao pode modificar esta publicacao pois nao lhe pertence.")
@@ -211,13 +212,13 @@ def removerPublicacoes(utilizador):
         j = publicacoes[i]
         j = j.split(".")
         if j[0] == utilizador:
-            print(j[3], "\nIndex de publicacao: ", i)
+            print(j[3], "Hora: ", j[4] ,"\nIndex de publicacao: ")
             print("=" * 30)
             for y in range(len(comentarios)):
                 aux = comentarios[y]
                 aux = aux.split(",")
                 if (aux[0] == utilizador) and (aux[1] == j[1]) and (aux[2] == "c"):
-                    print("     ", aux[3], "\n      Index de comentario:", y)
+                    print("     ", aux[3], "Hora: ", j[4] ,"\n      Index de comentario:", y)
                     print("-" * 30)
 
     remove = input("Digite o index da publicacao que deseja remover, se desejar sair, digite sair: ")
@@ -245,7 +246,7 @@ def removerPublicacoes(utilizador):
             for i in listapos:
                 comentarios.remove(i)
         else:
-            print("Nao pode remover este comentario, pois nao lhe pertence.")
+            print("Nao pode remover esta publicacao, pois nao lhe pertence.")
 
         print("Publicacao removida com sucesso.")
 
@@ -269,19 +270,19 @@ def alterarComentarios(utilizador):
             return 0
         else:
             comentarios.pop(alterar)
-            comentarios.insert(alterar, (utilizador + "." + id[1] + "." + "c" + "." + newcoment))
+            comentarios.insert(alterar, (utilizador + "." + id[1] + "." + "c" + "." + newcoment + "." + str(datetime.datetime.now())))
 
             for i in range(len(publicacoes)):
                 j = publicacoes[i]
                 j = j.split(".")
-                print(j[3], "\nIndex de publicacao: ", i)
+                print(j[3], "Hora:", j[4] , "\nIndex de publicacao: ", i)
                 print("=" * 30)
                 for y in range(len(comentarios)):
                     aux = comentarios[y]
                     aux = aux.split(".")
                     if (aux[1] == j[1]) and (aux[2] == "c"):
                         print("Comentario de:", aux[0])
-                        print("     ", aux[3], "\n      Index de comentario:", y)
+                        print("     ", aux[3], "Hora: ",aux[4] ,"\n      Index de comentario:", y)
                         print("-" * 30)
     else:
         print("O comentario não pode ser alterado pois não lhe pertence")
@@ -316,19 +317,19 @@ def verPerfil(utilizador):
     publicacoes = pickle.load(open("publicacoes.dat", "rb"))
     comentarios = pickle.load(open("comentarios.dat", "rb"))
     print("Perfil de: ", utilizador)
+    print(f"Publicacoes de {utilizador}: ")
     for i in range(len(publicacoes)):
         j = publicacoes[i]
         j = j.split(".")
-        print("Minhas publicacaoes: ")
         if j[0] == utilizador:
-            print(j[3], "\nIndex de publicacao: ", i)
+            print(j[3], "Hora: ", j[4] ,"\nIndex de publicacao: ", i)
             print("=" * 30)
             for y in range(len(comentarios)):
                 aux = comentarios[y]
                 aux = aux.split(".")
                 if (aux[1] == j[1]) and (aux[2] == "c"):
                     print("Comentario de:", aux[0])
-                    print("     ", aux[3], "\nIndex de comentario: ", y)
+                    print("     ", aux[3],"Hora: ", aux[4] , "\nIndex de comentario: ", y)
                     print("-" * 30)
 
 
