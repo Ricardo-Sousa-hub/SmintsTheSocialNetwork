@@ -58,22 +58,26 @@ def writehtmltweet(publicacoes, comentarios):
         </head>
         <body>
             <div class="alinhamento">\n""")
-            for i in range(len(publicacoes)):
-                j = publicacoes[i]
+            tamanho = len(publicacoes) - 1
+            while tamanho >= 0:
+                j = publicacoes[tamanho]
                 j = j.split(".")
                 f.write(f"""<div class="tweet">
                     <p class="nome">{j[0]} Hora de publicacao: {j[4]}</p>
                     <p>{j[3]}</p>
                 </div>""")
                 f.write('''<div class="comentario">''')
-                for y in range(len(comentarios)):
-                    aux = comentarios[y]
+                tamanho1 = len(comentarios) - 1
+                while tamanho1 >= 0:
+                    aux = comentarios[tamanho1]
                     aux = aux.split(".")
                     if (aux[1] == j[1]) and (aux[2] == "c"):
                         f.write(f'''<p class="nome2">{aux[0]} Hora de comentario: {aux[4]}</p>
                     <p>{aux[3]}</p>
                     <hr>''')
+                    tamanho1 = tamanho1 - 1
                 f.write("</div>")
+                tamanho = tamanho - 1
             f.write("""    </div>    
         </body>
     </html>""")
@@ -107,13 +111,15 @@ def criarpost(utilizador):
                     x = random.randint(0, 1000)
 
                 ids.append(x)
-                publicacoes.append(utilizador + "." + str(x) + "." + "pub" + "." + publicacao + "." + str(datetime.datetime.now()))
+                publicacoes.append(
+                    utilizador + "." + str(x) + "." + "pub" + "." + publicacao + "." + str(datetime.datetime.now()))
                 while True:
                     comentario = input("Comentario? ")
                     if comentario == "sair":
                         break
                     else:
-                        comentarios.append(utilizador + "." + str(x) + "." + "c" + "." + comentario + "." + str(datetime.datetime.now()))
+                        comentarios.append(utilizador + "." + str(x) + "." + "c" + "." + comentario + "." + str(
+                            datetime.datetime.now()))
 
                 pickle.dump(users, open("users.dat", "wb"))
                 pickle.dump(publicacoes, open("publicacoes.dat", "wb"))
@@ -132,13 +138,15 @@ def criarpost(utilizador):
                 while x in ids:
                     x = random.randint(0, 1000)
                 ids.append(x)
-                listapublicacoes.append(utilizador + "." + str(x) + "." + "pub" + "." + publicacao + "." + str(datetime.datetime.now()))
+                listapublicacoes.append(
+                    utilizador + "." + str(x) + "." + "pub" + "." + publicacao + "." + str(datetime.datetime.now()))
                 while True:
                     comentario = input("Comentario? ")
                     if comentario == "sair":
                         break
                     else:
-                        listacoments.append(utilizador + "." + str(x) + "." + "c" + "." + comentario + "." + str(datetime.datetime.now()))
+                        listacoments.append(utilizador + "." + str(x) + "." + "c" + "." + comentario + "." + str(
+                            datetime.datetime.now()))
 
         pickle.dump(listapublicacoes, open("publicacoes.dat", "wb"))
         pickle.dump(listacoments, open("comentarios.dat", "wb"))
@@ -149,21 +157,23 @@ def verpublicacoes():
     try:
         publicacoes = pickle.load(open("publicacoes.dat", "rb"))
         comentarios = pickle.load(open("comentarios.dat", "rb"))
-
-        for i in range(len(publicacoes)):
-            j = publicacoes[i]
+        tamanho = len(publicacoes) - 1
+        while tamanho >= 0:
+            j = publicacoes[tamanho]
             j = j.split(".")
             print("Autor:", j[0], " Hora de publicacao: ", j[4])
-            print(j[3], "\nIndex de publicacao: ", i)
+            print(j[3], "\nIndex de publicacao: ", tamanho)
             print("=" * 30)
-            for y in range(len(comentarios)):
-                aux = comentarios[y]
+            tamanho1 = len(comentarios) - 1
+            while tamanho1 >= 0:
+                aux = comentarios[tamanho1]
                 aux = aux.split(".")
                 if (aux[1] == j[1]) and (aux[2] == "c"):
                     print("Comentario de:", aux[0], " Hora: ", aux[4])
-                    print("     ", aux[3], "\nIndex de comentario: ", y)
+                    print("     ", aux[3], "\nIndex de comentario: ", tamanho1)
                     print("-" * 30)
-
+                tamanho1 = tamanho1 - 1
+            tamanho = tamanho - 1
         writehtmltweet(publicacoes, comentarios)
         webbrowser.open_new_tab("tweet.html")
     except Exception:
@@ -182,7 +192,8 @@ def comentarPublicacoes(utilizador):
         comentarios = pickle.load(open("comentarios.dat", "rb"))
         x = publicacoes[selecao]
         x = x.split(".")
-        comentarios.append(utilizador + "." + str(x[1]) + "." + "c" + "." + comentario + "." + str(datetime.datetime.now()))
+        comentarios.append(
+            utilizador + "." + str(x[1]) + "." + "c" + "." + comentario + "." + str(datetime.datetime.now()))
         pickle.dump(comentarios, open("comentarios.dat", "wb"))
 
 
@@ -199,7 +210,8 @@ def alterarPublicacoes(utilizador):
             return 0
         else:
             publicacoes.pop(indexpub)
-            publicacoes.insert(indexpub, (utilizador + "." + str(aux[1]) + "." + "pub" + "." + alterarpub + "." + str(datetime.datetime.now())))
+            publicacoes.insert(indexpub, (utilizador + "." + str(aux[1]) + "." + "pub" + "." + alterarpub + "." + str(
+                datetime.datetime.now())))
             pickle.dump(publicacoes, open("publicacoes.dat", "wb"))
     else:
         print("Nao pode modificar esta publicacao pois nao lhe pertence.")
@@ -208,18 +220,22 @@ def alterarPublicacoes(utilizador):
 def removerPublicacoes(utilizador):
     publicacoes = pickle.load(open("publicacoes.dat", "rb"))
     comentarios = pickle.load(open("comentarios.dat", "rb"))
-    for i in range(len(publicacoes)):
-        j = publicacoes[i]
+    tamanho = len(publicacoes) - 1
+    while tamanho >= 0:
+        j = publicacoes[tamanho]
         j = j.split(".")
         if j[0] == utilizador:
-            print(j[3], "Hora: ", j[4] ,"\nIndex de publicacao: ")
+            print(j[3], "Hora: ", j[4], "\nIndex de publicacao: ", tamanho)
             print("=" * 30)
-            for y in range(len(comentarios)):
-                aux = comentarios[y]
+            tamanho1 = len(comentarios) - 1
+            while tamanho1 >= 0:
+                aux = comentarios[tamanho1]
                 aux = aux.split(",")
                 if (aux[0] == utilizador) and (aux[1] == j[1]) and (aux[2] == "c"):
-                    print("     ", aux[3], "Hora: ", j[4] ,"\n      Index de comentario:", y)
+                    print("     ", aux[3], "Hora: ", j[4], "\n      Index de comentario:", tamanho1)
                     print("-" * 30)
+                tamanho1 = tamanho1 - 1
+        tamanho = tamanho - 1
 
     remove = input("Digite o index da publicacao que deseja remover, se desejar sair, digite sair: ")
     if remove == "sair":
@@ -236,12 +252,13 @@ def removerPublicacoes(utilizador):
 
             publicacoes.pop(remove)
             listapos = []
-
-            for i in range(len(comentarios)):
-                j = comentarios[i]
+            tamanho = len(comentarios) - 1
+            while tamanho >= 0:
+                j = comentarios[tamanho]
                 j = j.split(".")
                 if j[0] == user and j[1] == aux[1]:
-                    listapos.append(comentarios[i])
+                    listapos.append(comentarios[tamanho])
+                tamanho = tamanho - 1
 
             for i in listapos:
                 comentarios.remove(i)
@@ -270,20 +287,24 @@ def alterarComentarios(utilizador):
             return 0
         else:
             comentarios.pop(alterar)
-            comentarios.insert(alterar, (utilizador + "." + id[1] + "." + "c" + "." + newcoment + "." + str(datetime.datetime.now())))
-
-            for i in range(len(publicacoes)):
-                j = publicacoes[i]
+            comentarios.insert(alterar, (
+                        utilizador + "." + id[1] + "." + "c" + "." + newcoment + "." + str(datetime.datetime.now())))
+            tamanho = len(publicacoes) - 1
+            while tamanho >= 0:
+                j = publicacoes[tamanho]
                 j = j.split(".")
-                print(j[3], "Hora:", j[4] , "\nIndex de publicacao: ", i)
+                print(j[3], "Hora:", j[4], "\nIndex de publicacao: ", tamanho)
                 print("=" * 30)
-                for y in range(len(comentarios)):
-                    aux = comentarios[y]
+                tamanho1 = len(comentarios) - 1
+                while tamanho1 >= 0:
+                    aux = comentarios[tamanho1]
                     aux = aux.split(".")
                     if (aux[1] == j[1]) and (aux[2] == "c"):
                         print("Comentario de:", aux[0])
-                        print("     ", aux[3], "Hora: ",aux[4] ,"\n      Index de comentario:", y)
+                        print("     ", aux[3], "Hora: ", aux[4], "\n      Index de comentario:", tamanho1)
                         print("-" * 30)
+                    tamanho1 = tamanho1 - 1
+                tamanho = tamanho - 1
     else:
         print("O comentario não pode ser alterado pois não lhe pertence")
 
@@ -318,19 +339,23 @@ def verPerfil(utilizador):
     comentarios = pickle.load(open("comentarios.dat", "rb"))
     print("Perfil de: ", utilizador)
     print(f"Publicacoes de {utilizador}: ")
-    for i in range(len(publicacoes)):
-        j = publicacoes[i]
+    tamanho = len(publicacoes) - 1
+    while tamanho >= 0:
+        j = publicacoes[tamanho]
         j = j.split(".")
         if j[0] == utilizador:
-            print(j[3], "Hora: ", j[4] ,"\nIndex de publicacao: ", i)
+            print(j[3], "Hora: ", j[4], "\nIndex de publicacao: ", tamanho)
             print("=" * 30)
-            for y in range(len(comentarios)):
-                aux = comentarios[y]
+            tamanho1 = len(comentarios) - 1
+            while tamanho1 >= 0:
+                aux = comentarios[tamanho1]
                 aux = aux.split(".")
                 if (aux[1] == j[1]) and (aux[2] == "c"):
                     print("Comentario de:", aux[0])
-                    print("     ", aux[3],"Hora: ", aux[4] , "\nIndex de comentario: ", y)
+                    print("     ", aux[3], "Hora: ", aux[4], "\nIndex de comentario: ", tamanho1)
                     print("-" * 30)
+                tamanho1 = tamanho1 - 1
+        tamanho = tamanho - 1
 
 
 def definicoesdeconta(utilizador):
@@ -341,7 +366,6 @@ def definicoesdeconta(utilizador):
 def gostardepublicacao(utilizador):
     print("Gostos de publicacao...TODO...")
 
+
 def gostardecomentarios(utilizador):
     print("Gostos de comentarios...TODO...")
-
-
