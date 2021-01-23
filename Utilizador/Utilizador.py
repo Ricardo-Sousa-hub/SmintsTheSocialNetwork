@@ -2,6 +2,7 @@ import pickle
 import random
 import webbrowser
 import datetime
+from Admin.GestaoUtilizadores import Gestao_de_utilizadores
 
 
 def writehtmltweet(publicacoes, comentarios):
@@ -288,7 +289,7 @@ def alterarComentarios(utilizador):
         else:
             comentarios.pop(alterar)
             comentarios.insert(alterar, (
-                        utilizador + "." + id[1] + "." + "c" + "." + newcoment + "." + str(datetime.datetime.now())))
+                    utilizador + "." + id[1] + "." + "c" + "." + newcoment + "." + str(datetime.datetime.now())))
             tamanho = len(publicacoes) - 1
             while tamanho >= 0:
                 j = publicacoes[tamanho]
@@ -359,8 +360,40 @@ def verPerfil(utilizador):
 
 
 def definicoesdeconta(utilizador):
-    print("Definicoes de conta de", utilizador)
-    print("TODO...")
+    users, email, telefone, idades, palavrapasse = Gestao_de_utilizadores.pickleabrir()
+    while True:
+        print("Definicoes de conta de", utilizador)
+        print("Alterar dados de conta - 1")
+        print("Apagar conta - 2")
+        print("Terminar - 0")
+        op = input("Digite a sua opcao: ")
+
+        while op.isdigit() == False or int(op) > 2 or int(op) < 0:
+            print("Por favor digite um numero valido")
+            op = input("Digite a sua opcao: ")
+
+        if int(op) == 1:
+            opcao = int(input(
+                "Pretende modificar: \n 1-Nome de utilizador \n 2-Email de utilizador \n 3-Numero de utilizador \n "
+                "4-Password \n "
+                "Opcao: "))
+            if opcao == 1:
+                users, email, telefone, idades, palavrapasse = Gestao_de_utilizadores.pickleabrir()
+                Gestao_de_utilizadores.modificarNome(utilizador, users,opcao)
+            elif opcao == 2:
+                users, email, telefone, idades, palavrapasse = Gestao_de_utilizadores.pickleabrir()
+                Gestao_de_utilizadores.modificarEmail(utilizador, email, opcao)
+            elif opcao == 3:
+                users, email, telefone, idades, palavrapasse = Gestao_de_utilizadores.pickleabrir()
+                Gestao_de_utilizadores.modificarContacto(utilizador, telefone, opcao)
+            elif opcao == 4:
+                users, email, telefone, idades, palavrapasse = Gestao_de_utilizadores.pickleabrir()
+                Gestao_de_utilizadores.modificarPassword(utilizador, palavrapasse, opcao)
+                print("TODO...Modificar password")
+        elif int(op) == 2:
+            print("Apagar conta...TODO")
+        elif int(op) == 0:
+            break
 
 
 def gostardepublicacao(utilizador):

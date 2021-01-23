@@ -8,7 +8,7 @@ def MenuPrincipalUser(utilizador):
         op = Menu.Menu("Gestão de rede social",
                        ["Criar post", "Ver publicacoes", "Comentar publicacoes", "Alterar publicacoes",
                         "Remover publicacoes", "Alterar comentarios", "Remover comentarios", "Pesquisar por utilziador",
-                        "Ver perfil", "Definicoes de conta"], 9)
+                        "Ver perfil", "Definicoes de conta"], 10)
         if op == 1:
             Utilizador.criarpost(utilizador)
             usrop = input("Deseja repetir o processo? s/n: ")

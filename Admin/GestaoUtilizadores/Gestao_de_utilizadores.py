@@ -2,7 +2,7 @@ import pickle
 import webbrowser
 import re
 import datetime
-
+from Utilizador.Utilizador import verPerfil
 
 def writehtml(users, email, telefone, idade):
     with open("utilizadores.html", "w") as f:
@@ -100,57 +100,17 @@ def verificaremail(mail):
     return email
 
 
-def modificar(opcao, lista, op):
-    if op == 3:
-        opcao = str(opcao)
+def modificarNome(nome, lista, op):
+    print("TODO...")
 
-    if opcao in lista:
-        num = lista.index(opcao)
+def modificarEmail(email, lista, op):
+    print("TODO...")
 
-        if op == 1:
-            text = "nome"
-            update = input("Digite o novo {}: ".format(text))
+def modificarContacto(numero, lista, op):
+    print("TODO...")
 
-            while any(char.isdigit() for char in update) and any(char.isalpha() for char in update) or any(
-                    char.isdigit() for char in update):
-                print("Digite um nome valido.")
-                update = input("Digite o novo {}: ".format(text))
-
-            while update == opcao:
-                print("Por favor digite um nome diferente do que pretende modificar")
-                update = input("Digite o novo {}: ".format(text))
-
-        elif op == 2:
-            text = "email"
-            update = input("Digite o novo {}: ".format(text))
-
-            update = verificaremail(update)
-
-            while update == opcao:
-                print("Digite um email diferente do que pretende modificar")
-                update = input("Digite o novo {}: ".format(text))
-        elif op == 3:
-            text = "contacto"
-            update = input("Digite o novo {}: ".format(text))
-
-            while validacao_para_numero(update):
-                print("Digite um numero valido.")
-                update = input("Numero de utilizador? ")
-
-            while update == opcao:
-                print("Digite um numero de utilziador diferente do que pretende modificar")
-                update = input("Digite o novo {}: ".format(text))
-            while len(update) > 9 or len(update) < 9:
-                print("O numero de telefone tem de ter 9 digitos")
-                update = input("Numero de utilizador? ")
-
-            update = valnum(update)
-
-        lista.pop(num)
-        lista.insert(num, update)
-    else:
-        print("Utilizador não encontrado")
-
+def modificarPassword(password, lista, op):
+    print("TODO...")
 
 def inserirUtilizadores():
     print("Inserir utilizador")
@@ -283,14 +243,14 @@ def alterarUtilizador():
                     print("Erro, por favor digite um nome valido.")
                     nome = input("Nome de utilizador? ")
 
-                modificar(nome, users, op)
+                modificarNome(nome, users, op)
 
                 pickle.dump(users, open("telefone.dat", "wb"))
 
             elif op == 2:
                 mail = input("Digite o email de utilizador que pretende alterar: ")
                 mail = verificaremail(mail)
-                modificar(mail, email, op)
+                modificarEmail(mail, email, op)
 
                 pickle.dump(email, open("correio.dat", "wb"))
 
@@ -307,7 +267,7 @@ def alterarUtilizador():
 
                 numero = valnum(numero)
 
-                modificar(numero, telefone, op)
+                modificarContacto(numero, telefone, op)
 
                 pickle.dump(telefone, open("telefone.dat", "wb"))
 
@@ -322,7 +282,8 @@ def eliminarUtilizador():
     print("Eliminar utilizadores")
     try:
         users, email, telefone, idades, palavrapasse = pickleabrir()
-
+        publicacoes = pickle.load(open("publicacoes.dat", "rb"))
+        comentarios = pickle.load(open("comentarios.dat", "rb"))
         if len(users) > 0:
             for i in users:
                 print(i)
@@ -333,16 +294,36 @@ def eliminarUtilizador():
             while True:
                 try:
                     delete = input("Digite o nome que quer apagar: ")
-
+                    aux = []
+                    aux1 = []
                     email.pop(users.index(delete))
                     telefone.pop(users.index(delete))
                     idades.pop(users.index(delete))
                     palavrapasse.pop(users.index(delete))
                     users.remove(delete)
 
+                    for i in range(len(publicacoes)):
+                        x = publicacoes[i]
+                        x = x.split(".")
+                        if x[0] == delete:
+                            aux.append(i)
+                            for y in range(len(comentarios)):
+                                y = comentarios[y]
+                                y = y.split(".")
+                                if y[0] == delete:
+                                    aux1.append(y)
+                    for i in aux:
+                        publicacoes.pop(i)
+                    for y in aux1:
+                        comentarios.pop(y)
+
+                    pickle.dump(publicacoes, open("publicacoes.dat", "wb"))
+                    pickle.dump(comentarios, open("comentarios.dat", "wb"))
+
                     picklefechar(users, email, telefone, idades, palavrapasse)
 
                     writehtml(users, email, telefone, idades)
+
                     break
                 except ValueError:
                     print("Utilizador não encontrado")
@@ -398,6 +379,7 @@ def pesquisarporUtilizador():
                 print("Email:", email[users.index(pesquisa)])
                 print("Contacto:", telefone[users.index(pesquisa)])
                 print("==========================================")
+                verPerfil(pesquisa)
             else:
                 if pesquisa in str(telefone):
                     print("==========================================")
@@ -406,6 +388,7 @@ def pesquisarporUtilizador():
                     print("Idade:", idades[telefone.index(pesquisa)])
                     print("Email:", email[telefone.index(pesquisa)])
                     print("==========================================")
+                    verPerfil(users[telefone.index(pesquisa)])
                 else:
                     if pesquisa in email:
                         print("==========================================")
@@ -414,6 +397,8 @@ def pesquisarporUtilizador():
                         print("Idade:", idades[email.index(pesquisa)])
                         print("Contacto:", telefone[email.index(pesquisa)])
                         print("==========================================")
+                        verPerfil(users[email.index(pesquisa)])
+
                     else:
                         print(pesquisa, "nao encontrado")
         else:
