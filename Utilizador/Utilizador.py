@@ -189,33 +189,38 @@ def comentarPublicacoes(utilizador):
     if comentario == "sair":
         return 0
     else:
-        publicacoes = pickle.load(open("publicacoes.dat", "rb"))
-        comentarios = pickle.load(open("comentarios.dat", "rb"))
-        x = publicacoes[selecao]
-        x = x.split(".")
-        comentarios.append(
-            utilizador + "." + str(x[1]) + "." + "c" + "." + comentario + "." + str(datetime.datetime.now()))
-        pickle.dump(comentarios, open("comentarios.dat", "wb"))
+        try:
+            publicacoes = pickle.load(open("publicacoes.dat", "rb"))
+            comentarios = pickle.load(open("comentarios.dat", "rb"))
+            x = publicacoes[selecao]
+            x = x.split(".")
+            comentarios.append(
+                utilizador + "." + str(x[1]) + "." + "c" + "." + comentario + "." + str(datetime.datetime.now()))
+            pickle.dump(comentarios, open("comentarios.dat", "wb"))
+        except Exception:
+            print("Index um index invalido")
 
 
 def alterarPublicacoes(utilizador):
     publicacoes = pickle.load(open("publicacoes.dat", "rb"))
     verpublicacoes()
     indexpub = int(input("Digite o index da publicacao que pretende alterar: "))
-
-    aux = publicacoes[indexpub]
-    aux = aux.split(".")
-    if aux[0] == utilizador:
-        alterarpub = input("Digite a nova publicacao, se desejar sair, digite ssair: ")
-        if alterarpub == "sair":
-            return 0
+    try:
+        aux = publicacoes[indexpub]
+        aux = aux.split(".")
+        if aux[0] == utilizador:
+            alterarpub = input("Digite a nova publicacao, se desejar sair, digite ssair: ")
+            if alterarpub == "sair":
+                return 0
+            else:
+                publicacoes.pop(indexpub)
+                publicacoes.insert(indexpub, (utilizador + "." + str(aux[1]) + "." + "pub" + "." + alterarpub + "." + str(
+                    datetime.datetime.now())))
+                pickle.dump(publicacoes, open("publicacoes.dat", "wb"))
         else:
-            publicacoes.pop(indexpub)
-            publicacoes.insert(indexpub, (utilizador + "." + str(aux[1]) + "." + "pub" + "." + alterarpub + "." + str(
-                datetime.datetime.now())))
-            pickle.dump(publicacoes, open("publicacoes.dat", "wb"))
-    else:
-        print("Nao pode modificar esta publicacao pois nao lhe pertence.")
+            print("Nao pode modificar esta publicacao pois nao lhe pertence.")
+    except Exception:
+        print("Index invalido")
 
 
 def removerPublicacoes(utilizador):
@@ -242,34 +247,37 @@ def removerPublicacoes(utilizador):
     if remove == "sair":
         return 0
     else:
-        remove = int(remove)
-        autor = publicacoes[remove].split(".")
-        if autor[0] == utilizador:
-            print(publicacoes[remove])
-            aux = publicacoes[remove]
-            aux = aux.split(".")
+        try:
+            remove = int(remove)
+            autor = publicacoes[remove].split(".")
+            if autor[0] == utilizador:
+                print(publicacoes[remove])
+                aux = publicacoes[remove]
+                aux = aux.split(".")
 
-            user = utilizador
+                user = utilizador
 
-            publicacoes.pop(remove)
-            listapos = []
-            tamanho = len(comentarios) - 1
-            while tamanho >= 0:
-                j = comentarios[tamanho]
-                j = j.split(".")
-                if j[0] == user and j[1] == aux[1]:
-                    listapos.append(comentarios[tamanho])
-                tamanho = tamanho - 1
+                publicacoes.pop(remove)
+                listapos = []
+                tamanho = len(comentarios) - 1
+                while tamanho >= 0:
+                    j = comentarios[tamanho]
+                    j = j.split(".")
+                    if j[0] == user and j[1] == aux[1]:
+                        listapos.append(comentarios[tamanho])
+                    tamanho = tamanho - 1
 
-            for i in listapos:
-                comentarios.remove(i)
-        else:
-            print("Nao pode remover esta publicacao, pois nao lhe pertence.")
+                for i in listapos:
+                    comentarios.remove(i)
+            else:
+                print("Nao pode remover esta publicacao, pois nao lhe pertence.")
 
-        print("Publicacao removida com sucesso.")
+            print("Publicacao removida com sucesso.")
 
-        pickle.dump(publicacoes, open("publicacoes.dat", "wb"))
-        pickle.dump(comentarios, open("comentarios.dat", "wb"))
+            pickle.dump(publicacoes, open("publicacoes.dat", "wb"))
+            pickle.dump(comentarios, open("comentarios.dat", "wb"))
+        except Exception:
+            print("Index invalido")
 
 
 def alterarComentarios(utilizador):
@@ -393,7 +401,45 @@ def definicoesdeconta(utilizador):
                 Gestao_de_utilizadores.modificarPassword(utilizador, palavrapasse, users, opcao)
                 Gestao_de_utilizadores.picklefechar(users, email, telefone, idades, palavrapasse)
         elif int(op) == 2:
-            print("Apagar conta...TODO")
+            certeza = input("Tem mesmo a certeza que deseja apagar a sua conta junto com todos os seus dados Sim/Nao? ")
+            if certeza == "Nao":
+                break
+            else:
+                users, email, telefone, idades, palavrapasse = Gestao_de_utilizadores.pickleabrir()
+                publicacoes = pickle.load(open("publicacoes.dat", "rb"))
+                comentarios = pickle.load(open("comentarios.dat", "rb"))
+                listaauxiliar = []
+                listaauxiliar1 = []
+                for i in range(len(users)):
+                    if users[i] == utilizador:
+                        users.pop(i)
+                        email.pop(i)
+                        telefone.pop(i)
+                        idades.pop(i)
+                        palavrapasse.pop(i)
+                for y in range(len(publicacoes)):
+                    aux = publicacoes[y]
+                    aux = aux.split(".")
+                    if aux[0] == utilizador:
+                        listaauxiliar.append(y)
+                for k in range(len(comentarios)):
+                    aux1 = comentarios[y]
+                    aux1 = aux1.split(".")
+                    if aux1[0] == utilizador:
+                        listaauxiliar1.append(k)
+
+                for n in range(len(listaauxiliar)):
+                    publicacoes.pop(listaauxiliar[n])
+                for m in range(len(listaauxiliar1)):
+                    comentarios.pop(listaauxiliar1[m])
+
+                pickle.dump(publicacoes, open("publicacoes.dat", "wb"))
+                pickle.dump(comentarios, open("comentarios.dat", "wb"))
+
+                Gestao_de_utilizadores.picklefechar(users, email, telefone, idades, palavrapasse)
+
+                print("Conta apagada com sucesso")
+
         elif int(op) == 0:
             break
 

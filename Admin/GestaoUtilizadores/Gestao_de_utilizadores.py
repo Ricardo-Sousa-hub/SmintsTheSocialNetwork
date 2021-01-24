@@ -462,4 +462,18 @@ def pesquisarporUtilizador():
         print("Não existem dados")
 
 def pesquisafiltrada():
-    print("TODO...")
+    publicacoes = pickle.load(open("publicacoes.dat", "rb"))
+    comentarios = pickle.load(open("comentarios.dat", "rb"))
+    pesquisa = input("Digite uma ou mais palavras chave para pesquisar nas publicacoes ou nos comentarios")
+
+    for i in range(len(publicacoes)):
+        aux = publicacoes[i]
+        aux = aux.split(".")
+        if pesquisa in aux[3]:
+            print("Publicacao de ", aux[0], aux[3])
+            for y in range(len(comentarios)):
+                aux1 = comentarios[y]
+                aux1 = aux1.split(".")
+                if aux1[1] == aux[1] and pesquisa in aux1[3]:
+                    print("     Comentario de ", aux1[0], aux1[3])
+
