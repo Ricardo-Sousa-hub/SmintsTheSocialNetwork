@@ -451,4 +451,3 @@ def gostardepublicacao(utilizador):
 
 def gostardecomentarios(utilizador):
     print("TODO")
-
