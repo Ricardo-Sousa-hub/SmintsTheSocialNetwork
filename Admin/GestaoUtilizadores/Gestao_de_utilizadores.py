@@ -135,8 +135,6 @@ def modificarNome(nome, lista, op):
                 comentarios.insert(y, k)
     pickle.dump(publicacoes, open("publicacoes.dat", "wb"))
     pickle.dump(comentarios, open("comentarios.dat", "wb"))
-    print(publicacoes)
-    print(comentarios)
 
 def modificarEmail(user, lista, users, op):
     novoemail = str(input("Digite um novo email: "))
