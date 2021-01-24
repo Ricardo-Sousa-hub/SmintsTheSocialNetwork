@@ -380,16 +380,18 @@ def definicoesdeconta(utilizador):
             if opcao == 1:
                 users, email, telefone, idades, palavrapasse = Gestao_de_utilizadores.pickleabrir()
                 Gestao_de_utilizadores.modificarNome(utilizador, users,opcao)
+                Gestao_de_utilizadores.picklefechar(users, email, telefone, idades, palavrapasse)
             elif opcao == 2:
-                users, email, telefone, idades, palavrapasse = Gestao_de_utilizadores.pickleabrir()
-                Gestao_de_utilizadores.modificarEmail(utilizador, email, opcao)
+                Gestao_de_utilizadores.modificarEmail(utilizador, email, users, opcao)
+                Gestao_de_utilizadores.picklefechar(users, email, telefone, idades, palavrapasse)
             elif opcao == 3:
                 users, email, telefone, idades, palavrapasse = Gestao_de_utilizadores.pickleabrir()
-                Gestao_de_utilizadores.modificarContacto(utilizador, telefone, opcao)
+                Gestao_de_utilizadores.modificarContacto(utilizador, telefone, users, opcao)
+                Gestao_de_utilizadores.picklefechar(users, email, telefone, idades, palavrapasse)
             elif opcao == 4:
                 users, email, telefone, idades, palavrapasse = Gestao_de_utilizadores.pickleabrir()
-                Gestao_de_utilizadores.modificarPassword(utilizador, palavrapasse, opcao)
-                print("TODO...Modificar password")
+                Gestao_de_utilizadores.modificarPassword(utilizador, palavrapasse, users, opcao)
+                Gestao_de_utilizadores.picklefechar(users, email, telefone, idades, palavrapasse)
         elif int(op) == 2:
             print("Apagar conta...TODO")
         elif int(op) == 0:

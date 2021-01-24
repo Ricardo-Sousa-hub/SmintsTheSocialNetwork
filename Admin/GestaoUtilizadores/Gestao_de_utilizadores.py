@@ -4,6 +4,7 @@ import re
 import datetime
 from Utilizador.Utilizador import verPerfil
 
+
 def writehtml(users, email, telefone, idade):
     with open("utilizadores.html", "w") as f:
         f.write("""<!DOCTYPE html>
@@ -101,16 +102,54 @@ def verificaremail(mail):
 
 
 def modificarNome(nome, lista, op):
-    print("TODO...")
+    novonome = str(input("Digite o novo nome: "))
+    while any(char.isdigit() for char in novonome) and any(char.isalpha() for char in novonome) or any(
+            char.isdigit() for char in novonome):
+        print("Erro, por favor digite um nome valido.")
+        novonome = str(input("Nome de utilizador? "))
 
-def modificarEmail(email, lista, op):
-    print("TODO...")
+    for i in range(len(lista)):
+        if lista[i] == nome:
+            pos = i
+            lista.pop(pos)
+            lista.insert(pos, novonome)
 
-def modificarContacto(numero, lista, op):
-    print("TODO...")
+    publicacoes = pickle.load(open("publicacoes.dat", "rb"))
+    comentarios = pickle.load(open("comentarios.dat", "rb"))
 
-def modificarPassword(password, lista, op):
-    print("TODO...")
+    print("Modificar nome em publicacoes e comentarios...")
+
+
+def modificarEmail(user, lista, users, op):
+    novoemail = str(input("Digite um novo email: "))
+    regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
+    while not re.search(regex, novoemail) or novoemail in lista:
+        print("Email invalido")
+        novoemail = str(input("Digite o seu email novamente: "))
+    for i in range(len(users)):
+        if users[i] == user:
+            lista.pop(i)
+            lista.insert(i, str(novoemail))
+
+
+def modificarContacto(user, lista, users, op):
+    novonumero = input("Digite novo contacto: ")
+    aux = valnum(novonumero)
+
+    for i in range(len(users)):
+        if users[i] == user:
+            lista.pop(i)
+            lista.insert(i, str(aux))
+
+
+def modificarPassword(user, lista, users, op):
+    novapalavra = input("Nova palavra passe: ")
+
+    for i in range(len(users)):
+        if users[i] == user:
+            lista.pop(i)
+            lista.insert(i, str(novapalavra))
+
 
 def inserirUtilizadores():
     print("Inserir utilizador")
@@ -250,7 +289,7 @@ def alterarUtilizador():
             elif op == 2:
                 mail = input("Digite o email de utilizador que pretende alterar: ")
                 mail = verificaremail(mail)
-                modificarEmail(mail, email, op)
+                modificarEmail(mail, email, users, op)
 
                 pickle.dump(email, open("correio.dat", "wb"))
 
@@ -267,7 +306,7 @@ def alterarUtilizador():
 
                 numero = valnum(numero)
 
-                modificarContacto(numero, telefone, op)
+                modificarContacto(numero, telefone, users, op)
 
                 pickle.dump(telefone, open("telefone.dat", "wb"))
 
