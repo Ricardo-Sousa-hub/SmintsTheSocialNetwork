@@ -117,8 +117,26 @@ def modificarNome(nome, lista, op):
     publicacoes = pickle.load(open("publicacoes.dat", "rb"))
     comentarios = pickle.load(open("comentarios.dat", "rb"))
 
-    print("Modificar nome em publicacoes e comentarios...")
-
+    for i in range(len(publicacoes)):
+        x = publicacoes[i]
+        x = x.split(".")
+        if x[0] == nome:
+            x[0] = novonome
+            publicacoes.pop(i)
+            x = ".".join(x)
+            publicacoes.insert(i, x)
+        for y in range(len(comentarios)):
+            k = comentarios[y]
+            k = k.split(".")
+            if k[0] == nome:
+                k[0] = novonome
+                comentarios.pop(y)
+                k = ".".join(k)
+                comentarios.insert(y, k)
+    pickle.dump(publicacoes, open("publicacoes.dat", "wb"))
+    pickle.dump(comentarios, open("comentarios.dat", "wb"))
+    print(publicacoes)
+    print(comentarios)
 
 def modificarEmail(user, lista, users, op):
     novoemail = str(input("Digite um novo email: "))
