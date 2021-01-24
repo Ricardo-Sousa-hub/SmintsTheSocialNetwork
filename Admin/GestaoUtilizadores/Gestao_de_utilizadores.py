@@ -460,3 +460,6 @@ def pesquisarporUtilizador():
             print("Nao existe ennhum utilizador")
     except(OSError, IOError):
         print("Não existem dados")
+
+def pesquisafiltrada():
+    print("TODO...")

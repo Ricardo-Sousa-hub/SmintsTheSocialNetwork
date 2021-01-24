@@ -400,6 +400,8 @@ def definicoesdeconta(utilizador):
 
 def gostardepublicacao(utilizador):
     print("Gostos de publicacao...TODO...")
+    # Try:
+    # open ... ficheiro dos gostos de publicacoes
 
 
 def gostardecomentarios(utilizador):
