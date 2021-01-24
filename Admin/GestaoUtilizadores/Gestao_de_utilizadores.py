@@ -136,6 +136,7 @@ def modificarNome(nome, lista, op):
     pickle.dump(publicacoes, open("publicacoes.dat", "wb"))
     pickle.dump(comentarios, open("comentarios.dat", "wb"))
 
+
 def modificarEmail(user, lista, users, op):
     novoemail = str(input("Digite um novo email: "))
     regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
@@ -461,6 +462,7 @@ def pesquisarporUtilizador():
     except(OSError, IOError):
         print("Não existem dados")
 
+
 def pesquisafiltrada():
     publicacoes = pickle.load(open("publicacoes.dat", "rb"))
     comentarios = pickle.load(open("comentarios.dat", "rb"))
@@ -476,4 +478,3 @@ def pesquisafiltrada():
                 aux1 = aux1.split(".")
                 if aux1[1] == aux[1] and pesquisa in aux1[3]:
                     print("     Comentario de ", aux1[0], aux1[3])
-

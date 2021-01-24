@@ -214,8 +214,9 @@ def alterarPublicacoes(utilizador):
                 return 0
             else:
                 publicacoes.pop(indexpub)
-                publicacoes.insert(indexpub, (utilizador + "." + str(aux[1]) + "." + "pub" + "." + alterarpub + "." + str(
-                    datetime.datetime.now())))
+                publicacoes.insert(indexpub,
+                                   (utilizador + "." + str(aux[1]) + "." + "pub" + "." + alterarpub + "." + str(
+                                       datetime.datetime.now())))
                 pickle.dump(publicacoes, open("publicacoes.dat", "wb"))
         else:
             print("Nao pode modificar esta publicacao pois nao lhe pertence.")
@@ -387,7 +388,7 @@ def definicoesdeconta(utilizador):
                 "Opcao: "))
             if opcao == 1:
                 users, email, telefone, idades, palavrapasse = Gestao_de_utilizadores.pickleabrir()
-                Gestao_de_utilizadores.modificarNome(utilizador, users,opcao)
+                Gestao_de_utilizadores.modificarNome(utilizador, users, opcao)
                 Gestao_de_utilizadores.picklefechar(users, email, telefone, idades, palavrapasse)
             elif opcao == 2:
                 Gestao_de_utilizadores.modificarEmail(utilizador, email, users, opcao)
@@ -423,7 +424,7 @@ def definicoesdeconta(utilizador):
                     if aux[0] == utilizador:
                         listaauxiliar.append(y)
                 for k in range(len(comentarios)):
-                    aux1 = comentarios[y]
+                    aux1 = comentarios[k]
                     aux1 = aux1.split(".")
                     if aux1[0] == utilizador:
                         listaauxiliar1.append(k)
