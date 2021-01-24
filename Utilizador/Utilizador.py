@@ -446,10 +446,9 @@ def definicoesdeconta(utilizador):
 
 
 def gostardepublicacao(utilizador):
-    print("Gostos de publicacao...TODO...")
-    # Try:
-    # open ... ficheiro dos gostos de publicacoes
+    print("TODO...")
 
 
 def gostardecomentarios(utilizador):
-    print("Gostos de comentarios...TODO...")
+    print("TODO")
+
