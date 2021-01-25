@@ -411,7 +411,7 @@ def definicoesdeconta(utilizador):
                 comentarios = pickle.load(open("comentarios.dat", "rb"))
                 listaauxiliar = []
                 listaauxiliar1 = []
-                for i in range(len(users)):.
+                for i in range(len(users)):
                     if users[i] == utilizador:
                         users.pop(i)
                         email.pop(i)
