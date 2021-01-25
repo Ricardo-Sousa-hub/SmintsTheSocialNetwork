@@ -98,7 +98,7 @@ def verificaremail(mail):
         print("Email invalido")
         mail = input("Digite o seu email novamente: ")
 
-    return email
+    return mail
 
 
 def modificarNome(nome, lista, op):
@@ -182,9 +182,7 @@ def inserirUtilizadores():
 
         users.append(nome)
         mail = str(input("Email de utilizador? "))
-
         mail = verificaremail(mail)
-
         email.append(mail)
         numero = input("Numero de utilizador: ")
 

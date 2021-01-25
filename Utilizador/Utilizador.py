@@ -403,7 +403,7 @@ def definicoesdeconta(utilizador):
                 Gestao_de_utilizadores.picklefechar(users, email, telefone, idades, palavrapasse)
         elif int(op) == 2:
             certeza = input("Tem mesmo a certeza que deseja apagar a sua conta junto com todos os seus dados Sim/Nao? ")
-            if certeza == "Nao":
+            if certeza != "Sim":
                 break
             else:
                 users, email, telefone, idades, palavrapasse = Gestao_de_utilizadores.pickleabrir()
