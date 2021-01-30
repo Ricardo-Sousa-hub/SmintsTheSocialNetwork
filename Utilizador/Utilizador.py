@@ -3,7 +3,9 @@ import random
 import webbrowser
 import datetime
 from Admin.GestaoUtilizadores import Gestao_de_utilizadores
+import os
 
+clear = lambda: os.system('cls')
 
 def writehtmltweet(publicacoes, comentarios):
     if len(publicacoes) > 0:
@@ -96,6 +98,7 @@ def writehtmltweet(publicacoes, comentarios):
 
 
 def criarpost(utilizador):
+    clear()
     try:
         users = pickle.load(open("users.dat", "rb"))
         publicacoes = pickle.load(open("publicacoes.dat", "rb"))
@@ -155,6 +158,7 @@ def criarpost(utilizador):
 
 
 def verpublicacoes():
+    clear()
     try:
         publicacoes = pickle.load(open("publicacoes.dat", "rb"))
         comentarios = pickle.load(open("comentarios.dat", "rb"))
@@ -182,6 +186,7 @@ def verpublicacoes():
 
 
 def comentarPublicacoes(utilizador):
+    clear()
     verpublicacoes()
     selecao = int(input("Digite o index da publicacao que quer comentar: "))
     comentario = input("Digite o comentario, se desejar sair digite sair? ")
@@ -202,6 +207,7 @@ def comentarPublicacoes(utilizador):
 
 
 def alterarPublicacoes(utilizador):
+    clear()
     publicacoes = pickle.load(open("publicacoes.dat", "rb"))
     verpublicacoes()
     indexpub = int(input("Digite o index da publicacao que pretende alterar: "))
@@ -225,6 +231,7 @@ def alterarPublicacoes(utilizador):
 
 
 def removerPublicacoes(utilizador):
+    clear()
     publicacoes = pickle.load(open("publicacoes.dat", "rb"))
     comentarios = pickle.load(open("comentarios.dat", "rb"))
     tamanho = len(publicacoes) - 1
@@ -282,6 +289,7 @@ def removerPublicacoes(utilizador):
 
 
 def alterarComentarios(utilizador):
+    clear()
     verpublicacoes()
     publicacoes = pickle.load(open("publicacoes.dat", "rb"))
     comentarios = pickle.load(open("comentarios.dat", "rb"))
@@ -323,6 +331,7 @@ def alterarComentarios(utilizador):
 
 
 def removerComentarios(utilizador):
+    clear()
     comentarios = pickle.load(open("comentarios.dat", "rb"))
     verpublicacoes()
     if len(comentarios) == 0:
@@ -345,6 +354,7 @@ def removerComentarios(utilizador):
 
 
 def verPerfil(utilizador):
+    clear()
     publicacoes = pickle.load(open("publicacoes.dat", "rb"))
     comentarios = pickle.load(open("comentarios.dat", "rb"))
     print("Perfil de: ", utilizador)
@@ -369,6 +379,7 @@ def verPerfil(utilizador):
 
 
 def definicoesdeconta(utilizador):
+    clear()
     users, email, telefone, idades, palavrapasse = Gestao_de_utilizadores.pickleabrir()
     while True:
         print("Definicoes de conta de", utilizador)

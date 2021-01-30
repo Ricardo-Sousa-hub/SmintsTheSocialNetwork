@@ -5,6 +5,7 @@ import datetime
 from Utilizador.Utilizador import verPerfil
 
 
+
 def writehtml(users, email, telefone, idade):
     with open("utilizadores.html", "w") as f:
         f.write("""<!DOCTYPE html>
@@ -102,9 +103,9 @@ def verificaremail(mail):
 
 
 def modificarNome(nome, lista, op):
+    users, email, telefone, idades, palavrapasse = pickleabrir()
     novonome = str(input("Digite o novo nome: "))
-    while any(char.isdigit() for char in novonome) and any(char.isalpha() for char in novonome) or any(
-            char.isdigit() for char in novonome):
+    while " " in novonome and novonome in users:
         print("Erro, por favor digite um nome valido.")
         novonome = str(input("Nome de utilizador? "))
 
@@ -135,6 +136,7 @@ def modificarNome(nome, lista, op):
                 comentarios.insert(y, k)
     pickle.dump(publicacoes, open("publicacoes.dat", "wb"))
     pickle.dump(comentarios, open("comentarios.dat", "wb"))
+    picklefechar(users, email, telefone, idades, palavrapasse)
 
 
 def modificarEmail(user, lista, users, op):
@@ -175,14 +177,17 @@ def inserirUtilizadores():
 
         nome = str(input("Nome de utilizador? "))
 
-        while any(char.isdigit() for char in nome) and any(char.isalpha() for char in nome) or any(
-                char.isdigit() for char in nome) or "." in nome or "," in nome or "-" in nome or "?" in nome:
+        while " " in nome and nome in users:
             print("Erro, por favor digite um nome valido.")
             nome = input("Nome de utilizador? ")
 
         users.append(nome)
         mail = str(input("Email de utilizador? "))
         mail = verificaremail(mail)
+        while mail in email:
+            print("Email já em uso")
+            mail = str(input("Email de utilizador? "))
+            mail = verificaremail(mail)
         email.append(mail)
         numero = input("Numero de utilizador: ")
 
@@ -230,8 +235,7 @@ def inserirUtilizadores():
         palavrapasse = []
         nome = str(input("Nome de utilizador? "))
 
-        while any(char.isdigit() for char in nome) and any(char.isalpha() for char in nome) or any(
-                char.isdigit() for char in nome):
+        while " " in nome and nome in users:
             print("Erro, por favor digite um nome valido.")
             nome = input("Nome de utilizador? ")
 
@@ -292,8 +296,7 @@ def alterarUtilizador():
             if op == 1:
                 nome = input("Digite o nome de utilizador que pretende alterar: ")
 
-                while any(char.isdigit() for char in nome) and any(char.isalpha() for char in nome) or any(
-                        char.isdigit() for char in nome):
+                while " " in nome and nome in users:
                     print("Erro, por favor digite um nome valido.")
                     nome = input("Nome de utilizador? ")
 
@@ -476,3 +479,44 @@ def pesquisafiltrada():
                 aux1 = aux1.split(".")
                 if aux1[1] == aux[1] and pesquisa in aux1[3]:
                     print("     Comentario de ", aux1[0], aux1[3])
+
+
+def estatistica():
+    print("Pessoas com o mesmo provedor de email - 1")
+    print("Pessoas com a mesma operadora de telemovel - 2")
+    op = input("Digite a sua opcao? ")
+    while not op.isdigit() or int(op) < 1 or int(op) > 2:
+        print("Digite um numero valido")
+        op = input("Digite a sua opcao? ")
+
+    if int(op) == 1:
+        provedor = input("Digite o provedor de email que pretende procurar: ")
+        e = 0
+        users, email, telefone, idades, palavrapasse = pickleabrir()
+        for i in range(len(email)):
+            aux = email[i].split("@")
+            if aux[1] == provedor:
+                e = e + 1
+        if e == 0:
+            print("Não existem utilziadores com esse email")
+        else:
+            print(f"Existem {e} utilziadores com o provedor {provedor}")
+    elif int(op) == 2:
+        users, email, telefone, idades, palavrapasse = pickleabrir()
+        vodafone = 0
+        meo = 0
+        nos = 0
+        for i in range(len(telefone)):
+            aux = telefone[i]
+            if aux[:2] == '91' or aux[:3] == '921':
+                vodafone = vodafone + 1
+            else:
+                if aux[:2] == '96' or (aux[:3] == '925' or aux[:3] == '926' or aux[:3] == '927') or (aux[:4] == '9240' or aux[:4] == '9241' or aux[:4] == '9243' or aux[:4] == '9244'):
+                    meo = meo + 1
+                else:
+                    if aux[:2] == '93' or aux[:3] == '929':
+                        nos = nos + 1
+
+        print(f"Existem {meo} utilizadores que sao clientes da operadora MEO")
+        print(f"Existem {nos} utilziadores que sao clientes da operadora NOS")
+        print(f"Existem {vodafone} utilizadores que sao clientes da operadora VODAFONE")

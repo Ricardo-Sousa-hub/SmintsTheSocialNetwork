@@ -1,6 +1,9 @@
 from Utilizador import Utilizador
 from Menus import Menu
 from Admin.GestaoUtilizadores import Gestao_de_utilizadores
+import os
+
+clear = lambda: os.system('cls')
 
 
 def MenuPrincipalUser(utilizador):

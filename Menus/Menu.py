@@ -1,4 +1,10 @@
+import os
+
+clear = lambda: os.system('cls')
+
+
 def Menu(titulo, opcoes, nop):
+    clear()
     print()
     print(titulo)
     print()
