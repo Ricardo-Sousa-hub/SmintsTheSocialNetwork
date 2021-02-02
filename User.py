@@ -9,8 +9,8 @@ clear = lambda: os.system('cls')
 def MenuPrincipalUser(utilizador):
     while True:
         op = Menu.Menu("Gestão de rede social",
-                       ["Criar post", "Ver publicacoes", "Comentar publicacoes", "Alterar publicacoes",
-                        "Remover publicacoes", "Alterar comentarios", "Remover comentarios", "Pesquisar por utiliziador",
+                       ["Criar post", "Ver publicacoes", "Comentar/responder publicacoes", "Alterar publicacoes",
+                        "Remover publicacoes", "Alterar comentarios/reposta", "Remover comentarios/repostas", "Pesquisar por utiliziador",
                         "Ver perfil", "Definicoes de conta", "Remover publicacao", "Pesquisa filtrada de comentarios "
                                                                                    "e publicacoes"], 12)
         if op == 1:
