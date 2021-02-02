@@ -8,7 +8,6 @@ clear = lambda: os.system('cls')
 
 while True:
     try:
-        clear()
         users = pickle.load(open("users.dat", "rb"))
         palavrapasse = pickle.load(open("Password.dat", "rb"))
 
@@ -18,6 +17,7 @@ while True:
                       "Opcao: ")
 
         while opcao.isdigit() == False or int(opcao) < 0 or int(opcao) > 2:
+            clear()
             print("Digite um numero valido")
             opcao = input("Login - 1\n"
                           "Criar nova conta - 2\n"
@@ -25,7 +25,6 @@ while True:
                           "Opcao: ")
 
         if int(opcao) == 1:
-            clear()
             users = pickle.load(open("users.dat", "rb"))
             palavrapasse = pickle.load(open("Password.dat", "rb"))
             utilizador = str(input("Utilizador: "))
@@ -44,10 +43,13 @@ while True:
                             cliente = utilizador
                             MenuPrincipalUser(cliente)
                         else:
+                            clear()
                             print("Nome de utilziador/palavra passe incorreto(a) ou nao existente")
                     else:
+                        clear()
                         print("Palavra passe incorreta")
                 else:
+                    clear()
                     print("Utilizador não se encontra registado")
         elif int(opcao) == 2:
             Gestao_de_utilizadores.inserirUtilizadores()
@@ -81,6 +83,5 @@ while True:
         elif int(opcao) == 2:
             clear()
             Gestao_de_utilizadores.inserirUtilizadores()
-
         elif int(opcao) == 0:
             break
