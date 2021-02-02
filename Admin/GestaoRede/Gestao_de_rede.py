@@ -1,11 +1,8 @@
 def gestaoderede():
-    print("Gestão de rede Works")
+    print("Status: Online")
 
 def IP():
-    print("IP...TODO")
+    print("111.222.63.52")
 
 def DNS():
-    print("DNS...TODO")
-
-def pesquisa():
-    print("Pesquisa por nome...TODO")
+    print("4.4.4.4")
