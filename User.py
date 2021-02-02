@@ -11,7 +11,8 @@ def MenuPrincipalUser(utilizador):
         op = Menu.Menu("Gestão de rede social",
                        ["Criar post", "Ver publicacoes", "Comentar publicacoes", "Alterar publicacoes",
                         "Remover publicacoes", "Alterar comentarios", "Remover comentarios", "Pesquisar por utiliziador",
-                        "Ver perfil", "Definicoes de conta", "Gostar de publicacao", "Gostar de comentario", "Pesquisa filtrada de comentarios e publicacoes"], 13)
+                        "Ver perfil", "Definicoes de conta", "Remover publicacao", "Pesquisa filtrada de comentarios "
+                                                                                   "e publicacoes"], 12)
         if op == 1:
             Utilizador.criarpost(utilizador)
             usrop = input("Deseja repetir o processo? s/n: ")
@@ -83,20 +84,6 @@ def MenuPrincipalUser(utilizador):
                 usrop = input("Deseja repetir o processo? s/n: ")
             input("Prima qualquer tecla para continuar")
         elif op == 11:
-            Utilizador.gostardepublicacao(utilizador)
-            usrop = input("Deseja repetir o processo? s/n: ")
-            while usrop == "s":
-                Utilizador.gostardepublicacao(utilizador)
-                usrop = input("Deseja repetir o processo? s/n: ")
-            input("Prima qualquer tecla para continuar")
-        elif op == 12:
-            Utilizador.gostardecomentarios(utilizador)
-            usrop = input("Deseja repetir o processo? s/n: ")
-            while usrop == "s":
-                Utilizador.gostardecomentarios(utilizador)
-                usrop = input("Deseja repetir o processo? s/n: ")
-            input("Prima qualquer tecla para continuar")
-        elif op == 13:
             Gestao_de_utilizadores.pesquisafiltrada()
             usrop = input("Deseja repetir o processo? s/n: ")
             while usrop == "s":

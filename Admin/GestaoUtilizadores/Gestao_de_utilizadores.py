@@ -134,6 +134,7 @@ def modificarNome(nome, lista, op):
                 comentarios.pop(y)
                 k = ".".join(k)
                 comentarios.insert(y, k)
+
     pickle.dump(publicacoes, open("publicacoes.dat", "wb"))
     pickle.dump(comentarios, open("comentarios.dat", "wb"))
     picklefechar(users, email, telefone, idades, palavrapasse)
@@ -214,9 +215,22 @@ def inserirUtilizadores():
 
         telefone.append(numero)
 
-        data = int(input("Data de nascimento: "))
+        data = input("Data de nascimento do tipo dd-mm-aaaa: ")
+        while '/' in data or ' ' in data:
+            print("Por favor digite uma data valida")
+            data = input("Data de nascimento do tipo dd-mm-aaaa: ")
 
-        idade = datetime.date.today().year - (data % 10000)
+        data = data.split('-')
+        if datetime.datetime.today().month > int(data[1]):
+            idade = datetime.datetime.today().year - int(data[2])
+        else:
+            if datetime.datetime.today().month == int(data[1]):
+                if datetime.datetime.today().day >= int(data[0]):
+                    idade = datetime.datetime.today().year - int(data[2])
+                else:
+                    idade = datetime.datetime.today().year - int(data[2]) - 1
+            else:
+                idade = datetime.datetime.today().year - int(data[2]) - 1
 
         idades.append(idade)
 
@@ -490,33 +504,52 @@ def estatistica():
         op = input("Digite a sua opcao? ")
 
     if int(op) == 1:
+        listaauxiliar = []
         provedor = input("Digite o provedor de email que pretende procurar: ")
         e = 0
         users, email, telefone, idades, palavrapasse = pickleabrir()
         for i in range(len(email)):
             aux = email[i].split("@")
             if aux[1] == provedor:
+                listaauxiliar.append(email[i])
                 e = e + 1
         if e == 0:
             print("Não existem utilziadores com esse email")
         else:
             print(f"Existem {e} utilziadores com o provedor {provedor}")
+            for i in listaauxiliar:
+                print(i)
     elif int(op) == 2:
         users, email, telefone, idades, palavrapasse = pickleabrir()
         vodafone = 0
         meo = 0
         nos = 0
+        listaauxiliar1 = []
+        listaauxiliar2 = []
+        listaauxiliar3 = []
         for i in range(len(telefone)):
             aux = telefone[i]
             if aux[:2] == '91' or aux[:3] == '921':
                 vodafone = vodafone + 1
+                listaauxiliar1.append(telefone[i])
             else:
                 if aux[:2] == '96' or (aux[:3] == '925' or aux[:3] == '926' or aux[:3] == '927') or (aux[:4] == '9240' or aux[:4] == '9241' or aux[:4] == '9243' or aux[:4] == '9244'):
                     meo = meo + 1
+                    listaauxiliar2.append(telefone[i])
                 else:
                     if aux[:2] == '93' or aux[:3] == '929':
                         nos = nos + 1
+                        listaauxiliar3.append(telefone[i])
 
         print(f"Existem {meo} utilizadores que sao clientes da operadora MEO")
+        print("Meo: ")
+        for i in listaauxiliar2:
+            print(i)
         print(f"Existem {nos} utilziadores que sao clientes da operadora NOS")
+        print("NOS: ")
+        for i in listaauxiliar3:
+            print(i)
         print(f"Existem {vodafone} utilizadores que sao clientes da operadora VODAFONE")
+        print("VODAFONE: ")
+        for i in listaauxiliar1:
+            print(i)

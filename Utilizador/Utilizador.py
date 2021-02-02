@@ -7,6 +7,7 @@ import os
 
 clear = lambda: os.system('cls')
 
+
 def writehtmltweet(publicacoes, comentarios):
     if len(publicacoes) > 0:
         with open("tweet.html", "w") as f:
@@ -97,6 +98,18 @@ def writehtmltweet(publicacoes, comentarios):
         f.close()
 
 
+def valtweet(tweet):
+    count = 0
+    for i in range(len(list(tweet))):
+        if tweet[i] == " ":
+            count = count + 1
+    while len(list(tweet)) - count > 270:
+        print("A sua mensagem dem mais de 270 caracters")
+        tweet = input("Publicacao? ")
+
+    return tweet
+
+
 def criarpost(utilizador):
     clear()
     try:
@@ -110,6 +123,7 @@ def criarpost(utilizador):
             if publicacao == "sair":
                 break
             else:
+                publicacao = valtweet(publicacao)
                 x = random.randint(0, 1000)
                 while x in ids:
                     x = random.randint(0, 1000)
@@ -138,6 +152,7 @@ def criarpost(utilizador):
             if publicacao == "sair":
                 break
             else:
+                publicacao = valtweet(publicacao)
                 x = random.randint(0, 1000)
                 while x in ids:
                     x = random.randint(0, 1000)
@@ -195,6 +210,7 @@ def comentarPublicacoes(utilizador):
         return 0
     else:
         try:
+            comentario = valtweet(comentario)
             publicacoes = pickle.load(open("publicacoes.dat", "rb"))
             comentarios = pickle.load(open("comentarios.dat", "rb"))
             x = publicacoes[selecao]
@@ -219,6 +235,7 @@ def alterarPublicacoes(utilizador):
             if alterarpub == "sair":
                 return 0
             else:
+                alterarpub = valtweet(alterarpub)
                 publicacoes.pop(indexpub)
                 publicacoes.insert(indexpub,
                                    (utilizador + "." + str(aux[1]) + "." + "pub" + "." + alterarpub + "." + str(
@@ -304,6 +321,7 @@ def alterarComentarios(utilizador):
         if newcoment == "sair":
             return 0
         else:
+            newcoment = valtweet(newcoment)
             comentarios.pop(alterar)
             comentarios.insert(alterar, (
                     utilizador + "." + id[1] + "." + "c" + "." + newcoment + "." + str(datetime.datetime.now())))
@@ -358,6 +376,7 @@ def verPerfil(utilizador):
     publicacoes = pickle.load(open("publicacoes.dat", "rb"))
     comentarios = pickle.load(open("comentarios.dat", "rb"))
     print("Perfil de: ", utilizador)
+    users, email, telefone, idades, palavrapasse = Gestao_de_utilizadores.pickleabrir()
     print(f"Publicacoes de {utilizador}: ")
     tamanho = len(publicacoes) - 1
     while tamanho >= 0:
@@ -452,13 +471,7 @@ def definicoesdeconta(utilizador):
 
                 print("Conta apagada com sucesso")
 
+                exit()
+
         elif int(op) == 0:
             break
-
-
-def gostardepublicacao(utilizador):
-    print("TODO...")
-
-
-def gostardecomentarios(utilizador):
-    print("TODO")
